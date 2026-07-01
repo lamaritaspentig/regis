@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Layanan Pendidikan & Registrasi Sekolah</title>
+    <!-- Favicon Resmi Spentig -->
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/lamaritaspentig/asri/main/spentig.ico" type="image/x-icon">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#1d4ed8', // Royal Blue
+                            600: '#1e40af',
+                            700: '#1d4ed8',
+                        },
+                        accent: {
+                            orange: '#ea580c',
+                            orangeHover: '#c2410c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome CDN untuk ikon web -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* Menyembunyikan scrollbar bawaan browser tapi tetap bisa scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Sistem Layouting Flexbox Responsif & Dinamis untuk Keseimbangan Kartu */
+        .portal-card {
+            width: 100%;
+        }
+        @media (min-width: 640px) {
+            .portal-card {
+                width: calc(50% - 12px); /* 2 Kolom Seimbang di Tablet Kecil (Gap 24px) */
+            }
+        }
+        @media (min-width: 768px) {
+            .portal-card {
+                width: calc(33.333% - 16px); /* 3 Kolom Seimbang di Tablet Besar (Gap 24px) */
+            }
+        }
+        @media (min-width: 1024px) {
+            .portal-card {
+                width: calc(25% - 18px); /* 4 Kolom Seimbang di PC / Layar Lebar (Gap 24px) */
+            }
+        }
+    </style>
+</head>
+<!-- Menggunakan Flexbox Layout (flex flex-col min-h-screen) agar footer menetap di bagian paling bawah halaman -->
+<body class="bg-[#f3f4f6] text-slate-800 min-h-screen flex flex-col transition-colors duration-300 relative overflow-x-hidden">
+
+    <!-- Wrapper Latar Belakang Dekoratif (Mencegah Overflow / Spasi Kosong di Bawah Footer) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-400/10 blur-[150px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-orange-400/10 blur-[150px]"></div>
+    </div>
+
+    <!-- HEADER & LOGO AREA (Presisi, Responsif, dan Bersih) -->
+    <header class="bg-white shadow-md py-6 px-4 sm:px-6 md:px-8 relative z-20 shrink-0">
+        <div class="max-w-7xl mx-auto flex flex-col items-center">
+            
+            <!-- LOGO UTAMA: Registrasi Sekolah Berbasis Digital -->
+            <div class="flex flex-col items-center justify-center text-center max-w-2xl w-full">
+                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center w-full">
+                    <!-- Logo Resmi Spentig -->
+                    <div class="shrink-0 drop-shadow-xl">
+                        <img src="https://raw.githubusercontent.com/lamaritaspentig/asri/main/spentig.ico" 
+                             alt="Logo Spentig" 
+                             class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain transform hover:scale-105 transition-transform duration-300"
+                             onerror="this.onerror=null; this.src='https://placehold.co/110x110/1e3a8a/ffffff?text=Spentig';">
+                    </div>
+                    
+                    <!-- Text Logo -->
+                    <div class="text-center sm:text-left">
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight flex items-center justify-center sm:justify-start">
+                            <span class="text-blue-700">Regis</span>
+                            <span class="text-orange-600">Sekolah</span>
+                        </h1>
+                        <p class="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-slate-500 mt-1.5 leading-relaxed">
+                            <span class="block">Layanan Administrasi dan Informasi Berbasis Digital</span>
+                            <span class="block mt-0.5 text-slate-400">UPT SPF SMP Negeri 3 Makassar</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Dekolasi Garis Elektronik / Silsilah di bagian bawah Logo -->
+                <div class="hidden sm:flex items-center gap-1.5 mt-4 text-slate-300 w-full justify-center">
+                    <span class="h-[1px] bg-slate-200 flex-grow"></span>
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                    <span class="h-[1px] bg-slate-200 flex-grow"></span>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER (Menggunakan flex-grow agar konten utama mengisi ruang sisa dan mendorong footer ke bawah) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-10 flex-grow w-full">
+
+        <!-- PORTAL GRID MENGGUNAKAN FLEXBOX CENTERING (Menghilangkan kekosongan asimetris di baris terakhir) -->
+        <div id="portalGrid" class="flex flex-wrap justify-center gap-4 sm:gap-6 max-w-6xl mx-auto">
+            
+            <!-- 0. ITEM UTAMA: REGISTRASI SEKOLAH (Featured Card) -->
+            <div class="portal-card group relative transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <div class="absolute -top-2.5 -right-1 bg-gradient-to-r from-orange-500 to-red-500 text-[10px] font-black tracking-wider text-white px-3 py-1 rounded-full uppercase shadow-md animate-bounce z-10">
+                    Utama
+                </div>
+                <button onclick="openRegisterModal()" class="w-full text-center p-6 sm:p-8 rounded-2xl glass-card border-2 border-orange-500/40 hover:border-orange-500 flex flex-col items-center justify-center gap-4 shadow-md transition-all h-full bg-gradient-to-b from-orange-50/20 to-transparent min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-orange-100 text-orange-600 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                        <i class="fa-solid fa-user-plus text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base sm:text-lg text-slate-800 group-hover:text-orange-600 transition-colors">Registrasi Sekolah</h3>
+                        <p class="text-[11px] sm:text-xs text-slate-500 mt-1 font-medium leading-normal">Penerimaan Peserta Didik Baru (PPDB)</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- 1. e-Rapor -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/e-rapor" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-file-invoice text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">e-Rapor</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Laporan Hasil Belajar Siswa</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 2. e-Lamarita -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/e-lamarita" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-laptop text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">e-Lamarita</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Sistem Administrasi Utama</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 3. KEPO Murid -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/kepo-murid" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-users text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">KEPO Murid</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Konseling & Informasi Kesiswaan</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 4. Adiwiyata -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/adiwiyata" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-globe text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Adiwiyata</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Program Lingkungan Hijau</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 5. SIP-Surat -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/sip-surat" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-envelope text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">SIP-Surat</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Sistem Persuratan Elektronik</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 6. ASN Digital -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/asn-digital" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-tablet-screen-button text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">ASN Digital</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Kepegawaian & Kinerja Guru</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 7. Info GTK -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/info-gtk" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-circle-info text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Info GTK</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Data Guru & Tenaga Kependidikan</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 8. SIMPKB -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/simpkb" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-id-card-clip text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">SIMPKB</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Pengembangan Keprofesian Guru</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 9. Rumah Pendidikan -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/rumah-pendidikan" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-house text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Rumah Pendidikan</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Portal Inspirasi Edukatif Mandiri</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 10. Instagram -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://instagram.com" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-brands fa-instagram text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Instagram</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Media Dokumentasi & Informasi</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 11. Web Spentig -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/spentig" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-graduation-cap text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Web Spentig</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Website Resmi Sekolah Utama</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 12. Internal -->
+            <div class="portal-card group transform hover:-translate-y-1.5 active:scale-95 transition-all duration-300">
+                <a href="https://example.com/internal" target="_blank" class="block text-center p-6 sm:p-8 rounded-2xl glass-card border border-slate-200 hover:border-blue-500 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all h-full min-h-[160px] sm:min-h-[180px]">
+                    <div class="p-4 rounded-2xl bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-network-wired text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm sm:text-base text-slate-800 group-hover:text-blue-600 transition-colors">Internal</h3>
+                        <p class="text-[11px] text-slate-500 mt-1 leading-normal">Layanan Server Lokal Internal</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER INFORMASI (Statis & Kokoh - Tidak akan melayang atau bergeser saat digulir) -->
+    <footer class="border-t border-slate-200 bg-white py-10 px-4 sm:px-6 relative z-20 shrink-0">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <div>
+                <h4 class="font-bold text-slate-800 text-base">Portal Administrasi Sekolah Digital - SPENTIG</h4>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed max-w-xl">Dikembangkan oleh Tim Lamarita Spentig untuk menghubungkan orang tua, siswa, dan guru dalam satu gerbang integrasi.</p>
+            </div>
+            <div class="text-xs text-slate-400 space-y-1 md:text-right shrink-0">
+                <p>&copy; 2026 Tim Lamarita Spentig. Hak Cipta Dilindungi.</p>
+                <p class="font-medium text-slate-500">Versi 3.0.1 (Stable Build)</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE FORM MODAL: REGISTRASI SISWA BARU -->
+    <div id="registerModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300 overflow-y-auto p-4 sm:p-6">
+        <div class="bg-white border border-slate-200 rounded-3xl max-w-2xl w-full shadow-2xl transform scale-95 transition-transform duration-300 my-auto flex flex-col max-h-[92vh] sm:max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-orange-100 text-orange-600 rounded-xl">
+                        <i class="fa-solid fa-user-plus text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base sm:text-lg text-slate-900">Formulir Registrasi Siswa Baru</h3>
+                        <p class="text-[11px] sm:text-xs text-slate-400">Tahun Ajaran 2026/2027</p>
+                    </div>
+                </div>
+                <button onclick="closeRegisterModal()" class="p-2 hover:bg-slate-100 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Multi-step Indicator -->
+            <div class="px-5 sm:px-6 py-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center shrink-0 text-[11px] sm:text-xs font-bold text-slate-400">
+                <div id="stepIndicator1" class="flex items-center gap-2 text-blue-600"><span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-100 flex items-center justify-center text-xs">1</span> <span class="hidden sm:inline">Data Diri</span><span class="sm:hidden">Diri</span></div>
+                <div class="h-[1px] bg-slate-200 flex-grow mx-2 sm:mx-4"></div>
+                <div id="stepIndicator2" class="flex items-center gap-2"><span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs">2</span> <span class="hidden sm:inline">Orang Tua</span><span class="sm:hidden">Ortu</span></div>
+                <div class="h-[1px] bg-slate-200 flex-grow mx-2 sm:mx-4"></div>
+                <div id="stepIndicator3" class="flex items-center gap-2"><span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs">3</span> Konfirmasi</div>
+            </div>
+
+            <!-- Modal Form Body -->
+            <div class="p-5 sm:p-6 overflow-y-auto flex-grow text-xs sm:text-sm no-scrollbar">
+                <form id="ppdbForm" onsubmit="handleFormSubmit(event)">
+                    
+                    <!-- STEP 1: DATA DIRI -->
+                    <div id="formStep1" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Nama Lengkap Siswa *</label>
+                                <input type="text" id="regNama" required placeholder="Sesuai Akta Kelahiran" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">NISN *</label>
+                                <input type="number" id="regNisn" required placeholder="Nomor Induk Siswa Nasional" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Tempat Lahir *</label>
+                                <input type="text" id="regTempatLahir" required placeholder="Kota Kelahiran" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Tanggal Lahir *</label>
+                                <input type="date" id="regTanggalLahir" required class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Jenis Kelamin *</label>
+                                <select id="regGender" required class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Agama *</label>
+                                <select id="regAgama" required class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                                    <option value="" disabled selected>Pilih Agama</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen Protestan</option>
+                                    <option value="Katolik">Kristen Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Khonghucu">Khonghucu</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Alamat Rumah Lengkap *</label>
+                            <textarea id="regAlamat" required rows="2" placeholder="Jalan, RT/RW, Kecamatan, Kota, Kode Pos" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: DATA ORANG TUA / WALI -->
+                    <div id="formStep2" class="space-y-4 hidden">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Nama Ayah Kandung *</label>
+                                <input type="text" id="regAyah" placeholder="Nama Lengkap Ayah" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Nama Ibu Kandung *</label>
+                                <input type="text" id="regIbu" placeholder="Nama Lengkap Ibu" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Pekerjaan Utama Orang Tua *</label>
+                                <input type="text" id="regPekerjaan" placeholder="PNS / Karyawan / Wiraswasta" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Nomor WhatsApp Aktif *</label>
+                                <input type="tel" id="regTelp" placeholder="Contoh: 081234567890" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide">Jalur Pendaftaran *</label>
+                            <select id="regJalur" class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900">
+                                <option value="Zonasi" selected>Zonasi Jarak Rumah</option>
+                                <option value="Prestasi">Prestasi Akademik / Non-Akademik</option>
+                                <option value="Afirmasi">Afirmasi (Keluarga Kurang Mampu)</option>
+                                <option value="Perpindahan">Perpindahan Tugas Orang Tua</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: REVIEW & KONFIRMASI -->
+                    <div id="formStep3" class="space-y-4 hidden">
+                        <div class="p-4 bg-orange-50 text-orange-800 rounded-xl border border-orange-200/50 flex gap-3">
+                            <i class="fa-solid fa-circle-question text-base shrink-0 mt-0.5"></i>
+                            <p class="text-xs leading-relaxed">Harap pastikan semua data yang telah diinput di bawah ini sudah benar. Data yang telah dikirimkan akan diverifikasi oleh Panitia PPDB.</p>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-3">
+                            <div class="grid grid-cols-2 border-b border-slate-100 pb-2">
+                                <span class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase">Nama Calon Siswa</span>
+                                <span id="reviewNama" class="text-[11px] sm:text-xs font-bold text-slate-800 text-right sm:text-left truncate">-</span>
+                            </div>
+                            <div class="grid grid-cols-2 border-b border-slate-100 pb-2">
+                                <span class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase">NISN Siswa</span>
+                                <span id="reviewNisn" class="text-[11px] sm:text-xs font-bold text-slate-800 text-right sm:text-left truncate">-</span>
+                            </div>
+                            <div class="grid grid-cols-2 border-b border-slate-100 pb-2">
+                                <span class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase">Tempat, Tgl Lahir</span>
+                                <span id="reviewLahir" class="text-[11px] sm:text-xs font-bold text-slate-800 text-right sm:text-left truncate">-</span>
+                            </div>
+                            <div class="grid grid-cols-2 border-b border-slate-100 pb-2">
+                                <span class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase">Orang Tua / Wali</span>
+                                <span id="reviewOrtu" class="text-[11px] sm:text-xs font-bold text-slate-800 text-right sm:text-left truncate">-</span>
+                            </div>
+                            <div class="grid grid-cols-2 border-b border-slate-100 pb-2">
+                                <span class="text-[10px] sm:text-xs font-semibold text-slate-400 uppercase">Jalur & Kontak</span>
+                                <span id="reviewJalur" class="text-[11px] sm:text-xs font-bold text-slate-800 text-right sm:text-left truncate">-</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-2.5 pt-2">
+                            <input type="checkbox" id="regPersetujuan" required class="mt-1 w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
+                            <label for="regPersetujuan" class="text-[11px] sm:text-xs text-slate-500 leading-relaxed">Saya menyatakan bahwa seluruh data yang diisi adalah benar, asli, dan dapat dipertanggungjawabkan sesuai hukum.</label>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal Footer Controls -->
+            <div class="p-5 sm:p-6 border-t border-slate-100 flex justify-between items-center shrink-0">
+                <button type="button" id="prevBtn" onclick="navigateStep(-1)" class="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hidden text-xs transition-colors">
+                    Sebelumnya
+                </button>
+                <div class="flex-grow"></div>
+                <button type="button" id="nextBtn" onclick="navigateStep(1)" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-all shadow-md">
+                    Lanjutkan
+                </button>
+                <button type="submit" form="ppdbForm" id="submitBtn" class="px-5 py-2 sm:px-6 sm:py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs transition-all shadow-md hidden">
+                    Kirim Registrasi
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PPDB SUCCESS CARD MODAL (Bukti Registrasi Digital) -->
+    <div id="successModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300 px-4 py-6">
+        <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-5 sm:p-6 text-center shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-check text-2xl"></i>
+            </div>
+            
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900">Registrasi Berhasil Terkirim!</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 mt-1.5 leading-relaxed">Kartu bukti pendaftaran sementara Anda telah dibuat secara otomatis.</p>
+            
+            <!-- Bukti Slip Fisik -->
+            <div class="my-5 p-4 border border-dashed border-slate-200 rounded-2xl bg-slate-50 text-left space-y-3 relative overflow-hidden">
+                <!-- Watermark Background -->
+                <div class="absolute -right-8 -bottom-8 opacity-5 text-slate-800 pointer-events-none transform -rotate-12">
+                    <i class="fa-solid fa-graduation-cap text-[100px]"></i>
+                </div>
+
+                <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                    <span class="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-slate-400 uppercase">BUKTI DAFTAR (DIGITAL)</span>
+                    <span id="cardRegId" class="text-xs font-extrabold text-blue-600">#REG-2026-9481</span>
+                </div>
+                <div>
+                    <span class="block text-[9px] sm:text-[10px] text-slate-400 uppercase font-semibold">Nama Calon Siswa</span>
+                    <span id="cardNama" class="font-bold text-xs sm:text-sm text-slate-800">-</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <span class="block text-[9px] sm:text-[10px] text-slate-400 uppercase font-semibold">NISN</span>
+                        <span id="cardNisn" class="font-bold text-xs text-slate-800">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] sm:text-[10px] text-slate-400 uppercase font-semibold">Jalur Masuk</span>
+                        <span id="cardJalur" class="font-bold text-xs text-slate-800">-</span>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-slate-200 flex items-center justify-between gap-2">
+                    <div class="text-[8px] sm:text-[9px] text-slate-400 leading-normal max-w-[160px]">
+                        *Bawa slip ini saat verifikasi berkas luring di sekolah.
+                    </div>
+                    <!-- Simulasi QR Code PPDB -->
+                    <div class="w-12 h-12 bg-white p-1 rounded-md border shrink-0">
+                        <img id="successQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=VERIFIED_PPDB" alt="QR Pendaftaran" class="w-full h-full">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="window.print()" class="grow bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Kartu</span>
+                </button>
+                <button onclick="closeSuccessModal()" class="grow bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-3 rounded-xl transition-all">
+                    Tutup Portal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-5 py-3 rounded-full shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-500"></i>
+        <span id="toastMessage">Pemberitahuan berhasil!</span>
+    </div>
+
+    <!-- LOGIKA INTERAKTIF JAVASCRIPT -->
+    <script>
+        let currentStep = 1;
+
+        function navigateStep(direction) {
+            // Validasi input form sebelum berpindah ke langkah selanjutnya
+            if (direction === 1) {
+                if (currentStep === 1) {
+                    const nama = document.getElementById('regNama').value.trim();
+                    const nisn = document.getElementById('regNisn').value.trim();
+                    const tempat = document.getElementById('regTempatLahir').value.trim();
+                    const tgl = document.getElementById('regTanggalLahir').value;
+                    const gender = document.getElementById('regGender').value;
+                    const agama = document.getElementById('regAgama').value;
+                    const alamat = document.getElementById('regAlamat').value.trim();
+
+                    if (!nama || !nisn || !tempat || !tgl || !gender || !agama || !alamat) {
+                        showToast("Mohon lengkapi semua isian bertanda *");
+                        return;
+                    }
+                } else if (currentStep === 2) {
+                    const ayah = document.getElementById('regAyah').value.trim();
+                    const ibu = document.getElementById('regIbu').value.trim();
+                    const pekerjaan = document.getElementById('regPekerjaan').value.trim();
+                    const telp = document.getElementById('regTelp').value.trim();
+
+                    if (!ayah || !ibu || !pekerjaan || !telp) {
+                        showToast("Mohon lengkapi seluruh data Orang Tua.");
+                        return;
+                    }
+                    
+                    // Update data untuk layar konfirmasi / review
+                    document.getElementById('reviewNama').innerText = document.getElementById('regNama').value;
+                    document.getElementById('reviewNisn').innerText = document.getElementById('regNisn').value;
+                    document.getElementById('reviewLahir').innerText = `${document.getElementById('regTempatLahir').value}, ${document.getElementById('regTanggalLahir').value}`;
+                    document.getElementById('reviewOrtu').innerText = `${document.getElementById('regAyah').value} / ${document.getElementById('regIbu').value}`;
+                    document.getElementById('reviewJalur').innerText = `${document.getElementById('regJalur').value} (${document.getElementById('regTelp').value})`;
+                }
+            }
+
+            // Ganti step
+            currentStep += direction;
+
+            // Atur Visibilitas Sesuai Langkah Aktif
+            document.getElementById('formStep1').classList.toggle('hidden', currentStep !== 1);
+            document.getElementById('formStep2').classList.toggle('hidden', currentStep !== 2);
+            document.getElementById('formStep3').classList.toggle('hidden', currentStep !== 3);
+
+            // Perbarui Indikator Langkah
+            updateStepIndicators();
+
+            // Atur Visibilitas Tombol Navigasi
+            document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1);
+            document.getElementById('nextBtn').classList.toggle('hidden', currentStep === 3);
+            document.getElementById('submitBtn').classList.toggle('hidden', currentStep !== 3);
+        }
+
+        function updateStepIndicators() {
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                const node = indicator.querySelector('span');
+                if (i === currentStep) {
+                    indicator.className = "flex items-center gap-2 text-blue-600";
+                    node.className = "w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-100 flex items-center justify-center text-xs";
+                    node.innerHTML = i;
+                } else if (i < currentStep) {
+                    indicator.className = "flex items-center gap-2 text-emerald-600";
+                    node.className = "w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-100 flex items-center justify-center text-xs";
+                    node.innerHTML = '<i class="fa-solid fa-check text-xs"></i>';
+                } else {
+                    indicator.className = "flex items-center gap-2 text-slate-400";
+                    node.className = "w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs";
+                    node.innerText = i;
+                }
+            }
+        }
+
+        // Penanganan Pengiriman Form
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const persetujuan = document.getElementById('regPersetujuan').checked;
+            if (!persetujuan) {
+                showToast("Anda harus menyetujui pernyataan keaslian data.");
+                return;
+            }
+
+            // Simulasi ID Registrasi Unik
+            const randomID = `REG-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+            
+            // Set Data untuk Kartu Sukses
+            document.getElementById('cardRegId').innerText = `#${randomID}`;
+            document.getElementById('cardNama').innerText = document.getElementById('regNama').value;
+            document.getElementById('cardNisn').innerText = document.getElementById('regNisn').value;
+            document.getElementById('cardJalur').innerText = document.getElementById('regJalur').value;
+
+            // Update QR Code API URL
+            const qrData = `PPDB_VERIFIED_NAME_${encodeURIComponent(document.getElementById('regNama').value)}_ID_${randomID}`;
+            document.getElementById('successQrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${qrData}`;
+
+            // Tutup Modal Form, Buka Modal Sukses
+            closeRegisterModal();
+            setTimeout(() => {
+                openSuccessModal();
+            }, 350);
+
+            // Reset Form ke langkah pertama
+            document.getElementById('ppdbForm').reset();
+            currentStep = 1;
+            navigateStep(0); // Refresh UI
+        }
+
+        // Kontrol Modal Registrasi Sekolah
+        const registerModal = document.getElementById('registerModal');
+        function openRegisterModal() {
+            registerModal.classList.remove('hidden');
+            setTimeout(() => {
+                registerModal.classList.remove('opacity-0');
+                registerModal.querySelector('div').classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeRegisterModal() {
+            registerModal.classList.add('opacity-0');
+            registerModal.querySelector('div').classList.remove('scale-100');
+            setTimeout(() => {
+                registerModal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Kontrol Modal Sukses
+        const successModal = document.getElementById('successModal');
+        function openSuccessModal() {
+            successModal.classList.remove('hidden');
+            setTimeout(() => {
+                successModal.classList.remove('opacity-0');
+                successModal.querySelector('div').classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeSuccessModal() {
+            successModal.classList.add('opacity-0');
+            successModal.querySelector('div').classList.remove('scale-100');
+            setTimeout(() => {
+                successModal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Menampilkan Pesan Toast Notifikasi
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Menutup modal otomatis bila mengklik area luar modal background
+        window.addEventListener('click', function(e) {
+            if (e.target === registerModal) closeRegisterModal();
+            if (e.target === successModal) closeSuccessModal();
+        });
+    </script>
+</body>
+</html>
